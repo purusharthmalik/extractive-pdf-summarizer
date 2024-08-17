@@ -29,10 +29,11 @@ if uploaded_file is not None:
     llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0)
     qa_chain = load_qa_chain(llm, chain_type="stuff")
 
-    query = "Give 20 exact responses. No response shorter than 4 words should be included. Do not take into consideration the things said by the interviewer. The responses should only be by the participant. Do not summarize or generate new text. Give a summary at the end." + st.text_input("Ask a question about the PDF:")
+    query_input = st.text_input("Ask a question about the PDF:")
     
-    if query:
-        docs = vectorstore.similarity_search(query)
-        answer = qa_chain.run(input_documents=docs, question=query)
-        
-        st.write(f"Answer: {answer}")
+    if st.button("Submit"):
+        if query_input:
+            query = "Give 20 exact responses. No response shorter than 4 words should be included. Do not take into consideration the things said by the interviewer. The responses should only be by the participant. Do not summarize or generate new text. Give a summary at the end." + query_input
+            docs = vectorstore.similarity_search(query)
+            answer = qa_chain.run(input_documents=docs, question=query)
+            st.write(f"Answer: {answer}")
