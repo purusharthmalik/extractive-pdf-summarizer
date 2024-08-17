@@ -2,5 +2,5 @@ streamlit
 langchain
 faiss-cpu
 pypdf
-langchain-google-genai0
+langchain-google-genai
 langchain-groq
