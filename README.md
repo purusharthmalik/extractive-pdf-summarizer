@@ -1,2 +1,2 @@
-# extractive-pdf-summarizer
+# Extractive PDF Summarizer
 Performs extractive summarization on PDFs.
