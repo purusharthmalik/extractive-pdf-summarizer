@@ -1,14 +1,18 @@
+import os
+from dotenv import load_dotenv
 import streamlit as st
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain.chains.question_answering import load_qa_chain
 from langchain_groq import ChatGroq
 import tempfile
 
+load_dotenv()
+
 st.title("Khush hoja Khushali :)")
-st.write("Sorry the application isn't more helpful par PDF upload karke try kar lena :()")
+st.write("Sorry the application isn't more helpful par PDF upload karke try kar lena :(")
 
 # File uploader
 uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
@@ -33,7 +37,12 @@ if uploaded_file is not None:
     
     if st.button("Submit"):
         if query_input:
-            query = "Give 20 exact responses. No response shorter than 4 words should be included. Do not take into consideration the things said by the interviewer. The responses should only be by the participant. Do not summarize or generate new text. Give a summary at the end." + query_input
+            query = f"""
+            Give 20 exact responses. Strictly, no response shorter than 4 words should be included. Do not take into consideration the things said by the interviewer. The responses should only be by the participant. Do not summarize or generate new text. Give a summary at the end.
+            Give the responses as a coherent paragraph as well as a point-wise list.
+            Query: {query_input}
+            """
+            print(query)
             docs = vectorstore.similarity_search(query)
             answer = qa_chain.run(input_documents=docs, question=query)
             st.write(f"Answer: {answer}")
